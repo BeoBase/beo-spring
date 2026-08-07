@@ -10,4 +10,9 @@ class BeospringApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void mainStartsApplication() {
+		BeospringApplication.main(new String[]{});
+	}
+
 }
