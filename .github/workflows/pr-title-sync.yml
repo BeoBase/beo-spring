@@ -1,0 +1,50 @@
+name: Sync PR Title From Branch
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  sync-title:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update PR title
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PR_TOKEN }}
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+
+            console.log(`Branch: ${branch}`);
+
+            const match = branch.match(/(BEO-\d+)/i);
+
+            if (!match) {
+              core.setFailed(
+                "Branch name does not contain Jira ticket"
+              );
+              return;
+            }
+
+            const jiraTicket = match[1].toUpperCase();
+
+            const title = branch
+              .replace(/^(feature|bugfix|hotfix)\//, "")
+              .replace(`${match[1]}`, "")
+              .replace(/[-_]/g, " ")
+              .trim();
+
+            const newTitle = `${jiraTicket}: ${title}`;
+
+            console.log(`Updating PR title to: ${newTitle}`);
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              title: newTitle
+            });
