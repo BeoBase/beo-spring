@@ -2,7 +2,11 @@ name: Jira Convention Check
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, edited]
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
 
 concurrency:
   group: jira-check-${{ github.event.pull_request.number }}
