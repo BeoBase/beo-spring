@@ -2,7 +2,10 @@ name: Sync PR Title From Branch
 
 on:
   pull_request:
-    types: [opened]
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 permissions:
   pull-requests: write
