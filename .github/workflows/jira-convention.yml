@@ -2,7 +2,7 @@ name: Jira Convention Check
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, edited]
 jobs:
   jira-check:
     runs-on: ubuntu-latest
