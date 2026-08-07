@@ -48,3 +48,18 @@ jobs:
             done <<< "$COMMITS"
             
             echo "✅ Commit messages OK"
+
+      - name: Check PR title
+        run: |
+          TITLE="${{ github.event.pull_request.title }}"
+
+          echo "Checking PR title: $TITLE"
+
+          if [[ ! "$TITLE" =~ ^BEO-[0-9]+:\ .+ ]]; then
+            echo "❌ PR title must follow Jira format."
+            echo "Example:"
+            echo "BEO-475: add login logic"
+            exit 1
+          fi
+
+          echo "✅ PR title OK"
