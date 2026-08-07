@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BeospringApplication {
 
 	static void main(String[] args) {
+		// Testing comment 2
 		SpringApplication.run(BeospringApplication.class, args);
 	}
 
