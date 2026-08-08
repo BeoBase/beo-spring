@@ -10,15 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-#    env:
-      # Inject GitHub secrets into environment
-      # Remember to set up GitHub secrets
-#      SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
-#      DB_URL: ${{ secrets.DB_URL }}
-#      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-#      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    # Inject GitHub secrets into environment or fetch with Bitwarden secrets
+    env:
+      SPRING_PROFILES_ACTIVE: prod
 
     steps:
+      - name: Get secrets from Bitwarden
+        uses: bitwarden/sm-action@v2
+        with:
+          access_token: ${{ secrets.BW_ACCESS_TOKEN }}
+          base_url: https://vault.bitwarden.com
+          secrets: |
+            26c92fa6-7d2b-4710-8cbe-b4a00180d274 > DB_URL
+            42309dce-514e-41bd-bd10-b4a00180e2fa > DB_USERNAME
+            621ac999-07ba-4acc-8f16-b4a00180f013 > DB_PASSWORD
+
       - name: Checkout code
         uses: actions/checkout@v4
 
