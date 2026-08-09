@@ -83,7 +83,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$( cd "$SCRIPT_DIR/.." && pwd )"
 
 cat <<EOF > "$PROJECT_ROOT/.env"
-SPRING_PROFILES_ACTIVE=prod
+# .env file
 DB_URL=$DB_URL
 DB_USERNAME=$DB_USERNAME
 DB_PASSWORD=$DB_PASSWORD
