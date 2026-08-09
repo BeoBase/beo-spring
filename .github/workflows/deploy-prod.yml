@@ -1,0 +1,100 @@
+name: Deploy Production
+
+on:
+  pull_request:
+    types: [closed]
+    branches: ["main"]
+
+jobs:
+  deploy:
+    # Only run when the PR was actually merged
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    env:
+      SPRING_PROFILES_ACTIVE: prod
+
+    steps:
+      # --------------------------------------------------
+      # 1. Checkout the merged main branch
+      # --------------------------------------------------
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # --------------------------------------------------
+      # 2. Get production secrets from Bitwarden
+      # --------------------------------------------------
+      - name: Get secrets from Bitwarden
+        uses: bitwarden/sm-action@v2
+        with:
+          access_token: ${{ secrets.BW_ACCESS_TOKEN }}
+          base_url: https://vault.bitwarden.com
+          secrets: | 
+            26c92fa6-7d2b-4710-8cbe-b4a00180d274 > DB_URL 
+            42309dce-514e-41bd-bd10-b4a00180e2fa > DB_USERNAME 
+            621ac999-07ba-4acc-8f16-b4a00180f013 > DB_PASSWORD
+
+      # --------------------------------------------------
+      # 3. Set up Java 25
+      # --------------------------------------------------
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: "25"
+          distribution: "temurin"
+          cache: maven
+
+      # --------------------------------------------------
+      # 4. Run production verification
+      # --------------------------------------------------
+      - name: Run Tests and Check Coverage
+        run: mvn clean verify
+
+      # --------------------------------------------------
+      # 5. Update Render DB_URL
+      # --------------------------------------------------
+      - name: Update Render DB_URL
+        run: |
+          curl --fail-with-body \
+            --request PUT \
+            --url "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/env-vars/DB_URL" \
+            --header "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            --header "Content-Type: application/json" \
+            --data "{\"value\":\"$DB_URL\"}"
+
+      # --------------------------------------------------
+      # 6. Update Render DB_USERNAME
+      # --------------------------------------------------
+      - name: Update Render DB_USERNAME
+        run: |
+          curl --fail-with-body \
+            --request PUT \
+            --url "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/env-vars/DB_USERNAME" \
+            --header "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            --header "Content-Type: application/json" \
+            --data "{\"value\":\"$DB_USERNAME\"}"
+
+      # --------------------------------------------------
+      # 7. Update Render DB_PASSWORD
+      # --------------------------------------------------
+      - name: Update Render DB_PASSWORD
+        run: |
+          curl --fail-with-body \
+            --request PUT \
+            --url "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/env-vars/DB_PASSWORD" \
+            --header "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            --header "Content-Type: application/json" \
+            --data "{\"value\":\"$DB_PASSWORD\"}"
+
+      # --------------------------------------------------
+      # 8. Trigger Render deployment
+      # --------------------------------------------------
+      - name: Deploy Render service
+        run: | 
+          curl --fail-with-body \
+            --request POST \
+            --url "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+            --header "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            --header "Accept: application/json"
