@@ -74,7 +74,7 @@ if (-not $dbUsername.value) {
 $ProjectRoot = Join-Path -Path $PSScriptRoot -ChildPath ".."
 
 @"
-SPRING_PROFILES_ACTIVE=prod
+# .env file
 DB_URL=$($dbUrl.value)
 DB_USERNAME=$($dbUsername.value)
 DB_PASSWORD=$($dbPassword.value)
