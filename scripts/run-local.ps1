@@ -70,11 +70,14 @@ if (-not $dbUsername.value) {
 # 6. Write secrets to .env file for IntelliJ
 # ------------------------------------------------------------
 
+# Resolve the parent directory (project root) relative to where this script lives
+$ProjectRoot = Join-Path -Path $PSScriptRoot -ChildPath ".."
+
 @"
 SPRING_PROFILES_ACTIVE=prod
 DB_URL=$($dbUrl.value)
 DB_USERNAME=$($dbUsername.value)
 DB_PASSWORD=$($dbPassword.value)
-"@ | Set-Content -Path "$PSScriptRoot\.env" -Encoding utf8
+"@ | Set-Content -Path "$ProjectRoot\.env" -Encoding utf8
 
 Write-Host "Updated .env file with fresh secrets."
