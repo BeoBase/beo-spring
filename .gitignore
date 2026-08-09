@@ -1,3 +1,5 @@
+# .gitignore
+
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
@@ -32,5 +34,8 @@ build/
 ### VS Code ###
 .vscode/
 
-# Environment files / secrets
+# Do not include .env files
 .env
+.env.local
+.env.*.local
+
