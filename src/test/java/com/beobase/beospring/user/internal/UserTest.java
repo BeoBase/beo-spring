@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class UserTest {
 
     @Test
-    void constructor_shouldInitializeUser() {
+    void constructorShouldInitializeUser() {
         String name = "John Doe";
         String email = "john@example.com";
         String passwordHashed = "hashed-password";
@@ -29,7 +29,7 @@ public class UserTest {
     }
 
     @Test
-    void constructor_shouldNormalizeEmail() {
+    void constructorShouldNormalizeEmail() {
         User user = new User(
                 "John Doe",
                 "  JOHN@EXAMPLE.COM  ",
@@ -41,13 +41,13 @@ public class UserTest {
     }
 
     @Test
-    void isActive_shouldDefaultToTrue() {
+    void isActiveShouldDefaultToTrue() {
         User user = new User();
         assertTrue(user.isActive());
     }
 
     @Test
-    void createdAt_shouldBeInitialized() {
+    void createdAtShouldBeInitialized() {
         Instant before = Instant.now();
         User user = new User();
         Instant after = Instant.now();
@@ -58,28 +58,28 @@ public class UserTest {
     }
 
     @Test
-    void setEmail_shouldTrimAndLowercaseEmail() {
+    void setEmailShouldTrimAndLowercaseEmail() {
         User user = new User();
         user.setEmail("  JOHN.DOE@EXAMPLE.COM  ");
         assertEquals("john.doe@example.com", user.getEmail());
     }
 
     @Test
-    void setEmail_shouldAllowNull() {
+    void setEmailShouldAllowNull() {
         User user = new User();
         user.setEmail(null);
         assertNull(user.getEmail());
     }
 
     @Test
-    void setEmail_shouldPreserveAlreadyNormalizedEmail() {
+    void setEmailShouldPreserveAlreadyNormalizedEmail() {
         User user = new User();
         user.setEmail("john@example.com");
         assertEquals("john@example.com", user.getEmail());
     }
 
     @Test
-    void setters_shouldUpdateFields() {
+    void settersShouldUpdateFields() {
         User user = new User();
         user.setId("USR001");
         user.setName("John Doe");
