@@ -176,6 +176,7 @@
 					<!-- Enforces the 70% minimum coverage rule -->
 					<execution>
 						<id>check</id>
+						<phase>verify</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
