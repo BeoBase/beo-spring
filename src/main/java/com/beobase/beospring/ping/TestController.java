@@ -1,4 +1,4 @@
-package com.beobase.beospring.controller;
+package com.beobase.beospring.ping;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
         "https://www.beobase.com"
 })
 public class TestController {
+
     @GetMapping("/test")
     public String test() {
         return "Ok message from Beo Spring";
     }
+
 }
