@@ -1,4 +1,4 @@
-package com.beobase.beospring.ping;
+package com.beobase.beospring.ping.internal;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
         "https://beobase.com",
         "https://www.beobase.com"
 })
-public class TestController {
+class TestController {
 
     @GetMapping("/test")
     public String test() {
