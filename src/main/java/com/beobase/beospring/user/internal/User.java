@@ -43,15 +43,7 @@ class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
-    // Constructor without id (id can be generated in service layer)
-    public User(String name, String email, String passwordHashed, Role role) {
-        this.name = name;
-        setEmail(email);
-        this.passwordHashed = passwordHashed;
-        this.role = role;
-    }
-
-    // Normalize email before storing it
+    // Normalize email before storing it, extra layer of protection for DB logic
     public void setEmail(String email) {
         this.email = (email == null)
                 ? null
