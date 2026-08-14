@@ -3,7 +3,9 @@ package com.beobase.beospring.shared.implementation;
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.beobase.beospring.shared.IdGenerator;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 class NanoIdGenerator implements IdGenerator {
 
     private final int length;
