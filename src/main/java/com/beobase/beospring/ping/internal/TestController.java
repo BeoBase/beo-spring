@@ -1,18 +1,12 @@
 package com.beobase.beospring.ping.internal;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/test")
-@CrossOrigin(origins = {
-        "http://localhost:5173",
-        "https://beobase.com",
-        "https://www.beobase.com"
-})
-class TestController {
+public class TestController {
 
     @GetMapping("/test")
     public String test() {
