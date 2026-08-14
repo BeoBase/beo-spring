@@ -13,37 +13,30 @@ import org.junit.jupiter.api.Test;
 class UserTest {
 
     @Test
-    void constructorShouldInitializeUser() {
-        String name = "John Doe";
-        String email = "john@example.com";
-        String passwordHashed = "hashed-password";
-        Role role = Role.ROLE_USER;
+    void constructorShouldInitializeDefaultValues() {
+        User user = new User();
 
-        User user = new User(name, email, passwordHashed, role);
-
-        assertEquals(name, user.getName());
-        assertEquals(email, user.getEmail());
-        assertEquals(passwordHashed, user.getPasswordHashed());
-        assertEquals(role, user.getRole());
         assertNull(user.getId());
-    }
+        assertNull(user.getName());
+        assertNull(user.getEmail());
+        assertNull(user.getPasswordHashed());
+        assertNull(user.getRole());
 
-    @Test
-    void constructorShouldNormalizeEmail() {
-        User user = new User(
-                "John Doe",
-                "  JOHN@EXAMPLE.COM  ",
-                "hashed-password",
-                Role.ROLE_USER
-        );
-
-        assertEquals("john@example.com", user.getEmail());
+        assertTrue(user.isActive());
+        assertNotNull(user.getCreatedAt());
     }
 
     @Test
     void isActiveShouldDefaultToTrue() {
         User user = new User();
         assertTrue(user.isActive());
+    }
+
+    @Test
+    void setActiveShouldUpdateActiveStatus() {
+        User user = new User();
+        user.setActive(false);
+        assertFalse(user.isActive());
     }
 
     @Test
@@ -79,16 +72,46 @@ class UserTest {
     }
 
     @Test
+    void setEmailShouldNormalizeMixedCaseEmail() {
+        User user = new User();
+
+        user.setEmail("John.Doe@Example.COM");
+
+        assertEquals("john.doe@example.com", user.getEmail());
+    }
+
+    @Test
+    void setEmailShouldTrimLeadingAndTrailingWhitespace() {
+        User user = new User();
+
+        user.setEmail("   john@example.com   ");
+
+        assertEquals("john@example.com", user.getEmail());
+    }
+
+    @Test
+    void setEmailShouldUseRootLocale() {
+        User user = new User();
+
+        user.setEmail("I@EXAMPLE.COM");
+
+        assertEquals("i@example.com", user.getEmail());
+    }
+
+    @Test
     void settersShouldUpdateFields() {
         User user = new User();
+
         user.setId("USR001");
         user.setName("John Doe");
+        user.setEmail("john@example.com");
         user.setPasswordHashed("new-hash");
         user.setRole(Role.ROLE_ADMIN);
         user.setActive(false);
 
         assertEquals("USR001", user.getId());
         assertEquals("John Doe", user.getName());
+        assertEquals("john@example.com", user.getEmail());
         assertEquals("new-hash", user.getPasswordHashed());
         assertEquals(Role.ROLE_ADMIN, user.getRole());
         assertFalse(user.isActive());
