@@ -10,7 +10,7 @@ import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
 
-public class UserTest {
+class UserTest {
 
     @Test
     void constructorShouldInitializeUser() {
