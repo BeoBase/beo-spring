@@ -27,7 +27,8 @@ class UserServiceImpl implements UserService {
         return new UserInfo(
                 user.getId(),
                 user.getName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getRole().name()
         );
     }
 
@@ -63,7 +64,8 @@ class UserServiceImpl implements UserService {
                 return new UserInfo(
                         savedUser.getId(),
                         savedUser.getName(),
-                        savedUser.getEmail()
+                        savedUser.getEmail(),
+                        savedUser.getRole().name()
                 );
 
             } catch (DataIntegrityViolationException e) {

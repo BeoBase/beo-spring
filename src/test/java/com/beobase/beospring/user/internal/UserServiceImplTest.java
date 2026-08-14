@@ -55,6 +55,7 @@ class UserServiceImplTest {
         user.setId("abc123");
         user.setName("John Doe");
         user.setEmail("john@example.com");
+        user.setRole(Role.ROLE_USER);
 
         when(userRepository.findById("abc123"))
                 .thenReturn(Optional.of(user));
@@ -64,6 +65,7 @@ class UserServiceImplTest {
         assertEquals("abc123", result.id());
         assertEquals("John Doe", result.name());
         assertEquals("john@example.com", result.email());
+        assertEquals(Role.ROLE_USER.name(), result.role());
 
         verify(userRepository).findById("abc123");
     }
@@ -317,6 +319,7 @@ class UserServiceImplTest {
         savedUser.setId("unique-id");
         savedUser.setName("John Doe");
         savedUser.setEmail("john@example.com");
+        savedUser.setRole(Role.ROLE_USER);
 
         when(userRepository.save(any(User.class)))
                 .thenThrow(new DataIntegrityViolationException("Duplicate key"))
