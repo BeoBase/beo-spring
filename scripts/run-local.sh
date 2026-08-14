@@ -44,6 +44,7 @@ fi
 DB_PASSWORD_ID="621ac999-07ba-4acc-8f16-b4a00180f013"
 DB_URL_ID="26c92fa6-7d2b-4710-8cbe-b4a00180d274"
 DB_USERNAME_ID="42309dce-514e-41bd-bd10-b4a00180e2fa"
+JWT_SECRET_ID="5cb9a98a-e16e-494c-addd-b4a60144bdd6"
 
 # ------------------------------------------------------------
 # 4. Retrieve secrets
@@ -54,6 +55,7 @@ echo "Loading secrets from Bitwarden..."
 DB_PASSWORD=$(bws secret get "$DB_PASSWORD_ID" --output json | jq -r '.value')
 DB_URL=$(bws secret get "$DB_URL_ID" --output json | jq -r '.value')
 DB_USERNAME=$(bws secret get "$DB_USERNAME_ID" --output json | jq -r '.value')
+JWT_SECRET=$(bws secret get "$JWT_SECRET_ID" --output json | jq -r '.value')
 
 # ------------------------------------------------------------
 # 5. Verify retrieval
@@ -74,6 +76,11 @@ if [ -z "$DB_USERNAME" ] || [ "$DB_USERNAME" == "null" ]; then
     exit 1
 fi
 
+if [ -z "$JWT_SECRET" ] || [ "$JWT_SECRET" == "null" ]; then
+    echo "Error: JWT_SECRET could not be retrieved." >&2
+    exit 1
+fi
+
 # ------------------------------------------------------------
 # 6. Write secrets to .env file for IntelliJ
 # ------------------------------------------------------------
@@ -84,9 +91,12 @@ PROJECT_ROOT="$( cd "$SCRIPT_DIR/.." && pwd )"
 
 cat <<EOF > "$PROJECT_ROOT/.env"
 # .env file
+
 DB_URL=$DB_URL
 DB_USERNAME=$DB_USERNAME
 DB_PASSWORD=$DB_PASSWORD
+
+JWT_SECRET=$JWT_SECRET
 EOF
 
 echo "Updated .env file with fresh secrets."

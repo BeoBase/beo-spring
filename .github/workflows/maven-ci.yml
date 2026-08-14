@@ -24,6 +24,7 @@ jobs:
             26c92fa6-7d2b-4710-8cbe-b4a00180d274 > DB_URL
             42309dce-514e-41bd-bd10-b4a00180e2fa > DB_USERNAME
             621ac999-07ba-4acc-8f16-b4a00180f013 > DB_PASSWORD
+            5cb9a98a-e16e-494c-addd-b4a60144bdd6 > JWT_SECRET
 
       - name: Checkout code
         uses: actions/checkout@v4
