@@ -47,7 +47,7 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers("/test/**", "/auth/**").permitAll()
 
-                        // Allow user to register new account (POST /api/users)
+                        // Allow user to register new account (POST /users)
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
                         // USER role can access those api url

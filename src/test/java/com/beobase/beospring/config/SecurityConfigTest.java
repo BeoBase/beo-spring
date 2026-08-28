@@ -2,6 +2,8 @@ package com.beobase.beospring.config;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.beobase.beospring.user.UserInfo;
+import com.beobase.beospring.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -9,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -17,19 +20,21 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @Import(SecurityConfig.class)
+@ActiveProfiles("test")
 public class SecurityConfigTest {
 
     @Autowired
     private WebApplicationContext context;
 
-    @Autowired
-    private SecurityConfig securityConfig;
+//    @Autowired
+//    private SecurityConfig securityConfig;
 
     @Autowired
     private SecurityFilterChain securityFilterChain;
@@ -39,6 +44,9 @@ public class SecurityConfigTest {
 
     @MockitoBean
     private TokenAuthenticationFilter tokenAuthenticationFilter;
+
+    @MockitoBean
+    private UserService userService;
 
     private MockMvc mockMvc;
 
@@ -100,11 +108,26 @@ public class SecurityConfigTest {
 
     @Test
     void postUsersShouldBePublic() throws Exception {
+        UserInfo userInfo = new UserInfo(
+                "id1",
+                "Jane Doe",
+                "jane@example.com",
+                "ROLE_USER"
+        );
+        when(userService.createUser("Jane Doe", "jane@example.com", "password"))
+                .thenReturn(userInfo);
+
         mockMvc.perform(
                 post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}")
-        ).andExpect(status().is4xxClientError());
+                        .content("""
+                                {
+                                  "name": "Jane Doe",
+                                  "email": "jane@example.com",
+                                  "password": "password"
+                                }
+                                """)
+        ).andExpect(status().isCreated());
     }
 
 //    @Test
