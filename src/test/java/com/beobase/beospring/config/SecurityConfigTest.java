@@ -2,6 +2,8 @@ package com.beobase.beospring.config;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.beobase.beospring.user.UserInfo;
+import com.beobase.beospring.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -17,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,6 +42,9 @@ public class SecurityConfigTest {
 
     @MockitoBean
     private TokenAuthenticationFilter tokenAuthenticationFilter;
+
+    @MockitoBean
+    private UserService userService;
 
     private MockMvc mockMvc;
 
@@ -100,11 +106,26 @@ public class SecurityConfigTest {
 
     @Test
     void postUsersShouldBePublic() throws Exception {
+        UserInfo userInfo = new UserInfo(
+                "id1",
+                "Jane Doe",
+                "jane@example.com",
+                "ROLE_USER"
+        );
+        when(userService.createUser("Jane Doe", "jane@example.com", "password"))
+                .thenReturn(userInfo);
+
         mockMvc.perform(
                 post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}")
-        ).andExpect(status().is4xxClientError());
+                        .content("""
+                                {
+                                  "name": "Jane Doe",
+                                  "email": "jane@example.com",
+                                  "password": "password"
+                                }
+                                """)
+        ).andExpect(status().isCreated());
     }
 
 //    @Test
