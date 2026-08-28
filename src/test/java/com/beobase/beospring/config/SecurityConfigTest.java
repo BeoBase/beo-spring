@@ -31,8 +31,8 @@ public class SecurityConfigTest {
     @Autowired
     private WebApplicationContext context;
 
-    @Autowired
-    private SecurityConfig securityConfig;
+//    @Autowired
+//    private SecurityConfig securityConfig;
 
     @Autowired
     private SecurityFilterChain securityFilterChain;
