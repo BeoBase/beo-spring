@@ -124,7 +124,7 @@ public class JwtTokenServiceImplTest {
 
         assertEquals(
                 "user-123",
-                tokenService.validateTokenAndGetUserId(token, id -> true)
+                tokenService.validateTokenAndGetUserId(token, _ -> true)
         );
     }
 
@@ -137,14 +137,14 @@ public class JwtTokenServiceImplTest {
         );
 
         assertNull(
-                tokenService.validateTokenAndGetUserId(token, id -> false)
+                tokenService.validateTokenAndGetUserId(token, _ -> false)
         );
     }
 
     @Test
     void validateTokenAndGetUserIdShouldReturnNullForInvalidToken() {
         assertNull(
-                tokenService.validateTokenAndGetUserId("not-a-valid-jwt", id -> true)
+                tokenService.validateTokenAndGetUserId("not-a-valid-jwt", _ -> true)
         );
     }
 }
