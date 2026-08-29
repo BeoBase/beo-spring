@@ -4,21 +4,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
 import com.beobase.beospring.auth.web.LoginRequest;
 import com.beobase.beospring.auth.web.LoginResponse;
+import com.beobase.beospring.auth.web.RegisterRequest;
 import com.beobase.beospring.shared.PasswordService;
 import com.beobase.beospring.shared.TokenService;
 import com.beobase.beospring.user.UserCredentials;
+import com.beobase.beospring.user.UserRegistrationRequested;
 import com.beobase.beospring.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 @ExtendWith(MockitoExtension.class)
 class AuthServiceImplTest {
@@ -32,6 +37,9 @@ class AuthServiceImplTest {
     @Mock
     private TokenService tokenService;
 
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
+
     private AuthServiceImpl authService;
 
     @BeforeEach
@@ -39,7 +47,8 @@ class AuthServiceImplTest {
         authService = new AuthServiceImpl(
                 userService,
                 passwordService,
-                tokenService
+                tokenService,
+                eventPublisher
         );
     }
 
@@ -106,5 +115,28 @@ class AuthServiceImplTest {
         );
 
         assertEquals("Invalid email or password", exception.getMessage());
+    }
+
+    @Test
+    void registerShouldPublishUserRegistrationRequestedEvent() {
+        RegisterRequest request = new RegisterRequest(
+                "John Doe",
+                "john@example.com",
+                "password123"
+        );
+
+        authService.register(request);
+
+        ArgumentCaptor<UserRegistrationRequested> captor =
+                ArgumentCaptor.forClass(UserRegistrationRequested.class);
+
+        verify(eventPublisher).publishEvent(captor.capture());
+
+        UserRegistrationRequested event = captor.getValue();
+        assertEquals("John Doe", event.name());
+        assertEquals("john@example.com", event.email());
+        assertEquals("password123", event.password());
+
+        verifyNoInteractions(userService);
     }
 }
