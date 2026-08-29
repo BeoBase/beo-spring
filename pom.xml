@@ -53,7 +53,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
-		<!-- JWT Token -->
+		<!-- JWT Token: API, implementation and Jackson serializer for generating/parsing JWT tokens -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
