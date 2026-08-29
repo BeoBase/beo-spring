@@ -2,6 +2,7 @@ package com.beobase.beospring.user.internal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import com.beobase.beospring.shared.IdGenerator;
 import com.beobase.beospring.shared.PasswordService;
 import com.beobase.beospring.shared.StringService;
+import com.beobase.beospring.user.UserCredentials;
 import com.beobase.beospring.user.UserInfo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -374,6 +376,89 @@ class UserServiceImplTest {
 
         verify(idGenerator, times(5)).generate();
         verify(userRepository, times(5)).save(any(User.class));
+    }
+
+    @Test
+    void findCredentialsByEmailShouldReturnCredentialsWhenUserExists() {
+        User user = new User();
+        user.setId("abc123");
+        user.setName("John Doe");
+        user.setEmail("john@example.com");
+        user.setPasswordHashed("hashed-password");
+        user.setRole(Role.ROLE_USER);
+
+        when(stringService.normalizeString("john@example.com"))
+                .thenReturn("john@example.com");
+        when(userRepository.findByEmail("john@example.com"))
+                .thenReturn(Optional.of(user));
+
+        Optional<UserCredentials> result = userService.findCredentialsByEmail("john@example.com");
+
+        assertTrue(result.isPresent());
+        UserCredentials credentials = result.get();
+        assertEquals("abc123", credentials.id());
+        assertEquals("john@example.com", credentials.email());
+        assertEquals(Role.ROLE_USER.name(), credentials.role());
+        assertEquals("hashed-password", credentials.passwordHashed());
+
+        verify(stringService).normalizeString("john@example.com");
+        verify(userRepository).findByEmail("john@example.com");
+    }
+
+    @Test
+    void findCredentialsByEmailShouldReturnEmptyWhenUserDoesNotExist() {
+        when(stringService.normalizeString("john@example.com"))
+                .thenReturn("john@example.com");
+        when(userRepository.findByEmail("john@example.com"))
+                .thenReturn(Optional.empty());
+
+        Optional<UserCredentials> result = userService.findCredentialsByEmail("john@example.com");
+
+        assertTrue(result.isEmpty());
+
+        verify(stringService).normalizeString("john@example.com");
+        verify(userRepository).findByEmail("john@example.com");
+    }
+
+    @Test
+    void findCredentialsByEmailShouldNormalizeEmailBeforeLookup() {
+        User user = new User();
+        user.setId("abc123");
+        user.setName("John Doe");
+        user.setEmail("john@example.com");
+        user.setPasswordHashed("hashed-password");
+        user.setRole(Role.ROLE_USER);
+
+        when(stringService.normalizeString("  JOHN@EXAMPLE.COM  "))
+                .thenReturn("john@example.com");
+        when(userRepository.findByEmail("john@example.com"))
+                .thenReturn(Optional.of(user));
+
+        Optional<UserCredentials> result = userService.findCredentialsByEmail("  JOHN@EXAMPLE.COM  ");
+
+        assertTrue(result.isPresent());
+        assertEquals("john@example.com", result.get().email());
+
+        verify(stringService).normalizeString("  JOHN@EXAMPLE.COM  ");
+        verify(userRepository).findByEmail("john@example.com");
+    }
+
+    @Test
+    void findCredentialsByEmailShouldReturnEmptyWhenEmailIsNull() {
+        Optional<UserCredentials> result = userService.findCredentialsByEmail(null);
+
+        assertTrue(result.isEmpty());
+
+        verifyNoInteractions(stringService, userRepository);
+    }
+
+    @Test
+    void findCredentialsByEmailShouldReturnEmptyWhenEmailIsBlank() {
+        Optional<UserCredentials> result = userService.findCredentialsByEmail("   ");
+
+        assertTrue(result.isEmpty());
+
+        verifyNoInteractions(stringService, userRepository);
     }
 
 }
