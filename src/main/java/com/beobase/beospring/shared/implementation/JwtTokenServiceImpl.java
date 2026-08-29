@@ -2,6 +2,7 @@ package com.beobase.beospring.shared.implementation;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.function.Predicate;
 
 import javax.crypto.SecretKey;
 
@@ -27,9 +28,11 @@ class JwtTokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String generate(String userId) {
+    public String generate(String userId, String email, String role) {
         return Jwts.builder()
-                .subject(userId)
+                .subject(email)
+                .claim("userId", userId)
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_MS))
                 .signWith(signingKey)
@@ -38,7 +41,17 @@ class JwtTokenServiceImpl implements TokenService {
 
     @Override
     public String extractUserId(String token) {
+        return parseClaims(token).get("userId", String.class);
+    }
+
+    @Override
+    public String extractEmail(String token) {
         return parseClaims(token).getSubject();
+    }
+
+    @Override
+    public String extractRole(String token) {
+        return parseClaims(token).get("role", String.class);
     }
 
     @Override
@@ -48,6 +61,19 @@ class JwtTokenServiceImpl implements TokenService {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public String validateTokenAndGetUserId(String token, Predicate<String> userExists) {
+        try {
+            Claims claims = parseClaims(token);
+            String userId = claims.get("userId", String.class);
+
+            return userExists.test(userId) ? userId : null;
+
+        } catch (Exception e) {
+            return null;
         }
     }
 

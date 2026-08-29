@@ -3,6 +3,7 @@ package com.beobase.beospring.shared.implementation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -30,20 +31,27 @@ public class JwtTokenServiceImplTest {
 
     @Test
     void generateShouldCreateValidToken() {
-        String token = tokenService.generate("user-123");
+        String token = tokenService.generate("user-123", "user@example.com", "ROLE_USER");
         assertNotNull(token);
         assertTrue(tokenService.isValid(token));
     }
 
     @Test
-    void generateShouldIncludeUserIdAsSubject() {
-        String token = tokenService.generate("user-123");
+    void generateShouldIncludeUserIdClaim() {
+        String token = tokenService.generate("user-123", "user@example.com", "ROLE_USER");
         assertEquals("user-123", tokenService.extractUserId(token));
     }
 
     @Test
+    void generateShouldIncludeEmailAsSubjectAndRoleClaim() {
+        String token = tokenService.generate("user-123", "user@example.com", "ROLE_USER");
+        assertEquals("user@example.com", tokenService.extractEmail(token));
+        assertEquals("ROLE_USER", tokenService.extractRole(token));
+    }
+
+    @Test
     void extractUserIdShouldReturnCorrectUserId() {
-        String token = tokenService.generate("abc-123");
+        String token = tokenService.generate("abc-123", "john@example.com", "ROLE_ADMIN");
         String userId = tokenService.extractUserId(token);
         assertEquals("abc-123", userId);
     }
@@ -88,7 +96,7 @@ public class JwtTokenServiceImplTest {
 
     @Test
     void isValidShouldReturnFalseForTamperedToken() {
-        String token = tokenService.generate("user-123");
+        String token = tokenService.generate("user-123", "user@example.com", "ROLE_USER");
 
         String tamperedToken = token.substring(0, token.length() - 1)
                 + (token.endsWith("a") ? "b" : "a");
@@ -103,6 +111,40 @@ public class JwtTokenServiceImplTest {
         assertThrows(
                 WeakKeyException.class,
                 () -> new JwtTokenServiceImpl(shortSecret)
+        );
+    }
+
+    @Test
+    void validateTokenAndGetUserIdShouldReturnUserIdWhenUserExists() {
+        String token = tokenService.generate(
+                "user-123",
+                "user@example.com",
+                "ROLE_USER"
+        );
+
+        assertEquals(
+                "user-123",
+                tokenService.validateTokenAndGetUserId(token, _ -> true)
+        );
+    }
+
+    @Test
+    void validateTokenAndGetUserIdShouldReturnNullWhenUserDoesNotExist() {
+        String token = tokenService.generate(
+                "user-123",
+                "user@example.com",
+                "ROLE_USER"
+        );
+
+        assertNull(
+                tokenService.validateTokenAndGetUserId(token, _ -> false)
+        );
+    }
+
+    @Test
+    void validateTokenAndGetUserIdShouldReturnNullForInvalidToken() {
+        assertNull(
+                tokenService.validateTokenAndGetUserId("not-a-valid-jwt", _ -> true)
         );
     }
 }

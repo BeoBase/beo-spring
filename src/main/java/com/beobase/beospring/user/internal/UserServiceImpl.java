@@ -1,8 +1,11 @@
 package com.beobase.beospring.user.internal;
 
+import java.util.Optional;
+
 import com.beobase.beospring.shared.IdGenerator;
 import com.beobase.beospring.shared.PasswordService;
 import com.beobase.beospring.shared.StringService;
+import com.beobase.beospring.user.UserCredentials;
 import com.beobase.beospring.user.UserInfo;
 import com.beobase.beospring.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +33,23 @@ class UserServiceImpl implements UserService {
                 user.getEmail(),
                 user.getRole().name()
         );
+    }
+
+    @Override
+    public Optional<UserCredentials> findCredentialsByEmail(String email) {
+        if (email == null || email.isBlank()) {
+            return Optional.empty();
+        }
+
+        String normalizedEmail = stringService.normalizeString(email);
+
+        return userRepository.findByEmail(normalizedEmail)
+                .map(user -> new UserCredentials(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getRole().name(),
+                        user.getPasswordHashed()
+                ));
     }
 
     @Override
