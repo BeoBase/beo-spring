@@ -44,7 +44,8 @@ public class SecurityConfig {
                 // Authorization rules
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-                        .requestMatchers("/test/**", "/auth/**").permitAll()
+                        // TODO: location picker is public temporary, move it to the USER role later
+                        .requestMatchers("/test/**", "/auth/**", "/location-picker/**").permitAll()
 
                         // USER role can access those api url
                         .requestMatchers(
