@@ -99,6 +99,12 @@ public class SecurityConfigTest {
     }
 
     @Test
+    void locationPickerEndpointShouldBePublic() throws Exception {
+        mockMvc.perform(get("/location-picker/anything"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void authEndpointShouldBePublic() throws Exception {
         mockMvc.perform(get("/auth/anything"))
                 .andExpect(status().isNotFound());
