@@ -3,6 +3,7 @@ package com.beobase.beospring.user.internal;
 import java.time.Instant;
 import java.util.Locale;
 
+import com.beobase.beospring.shared.DbSchema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = DbSchema.BEO_BASE)
 @Getter
 @Setter
 @NoArgsConstructor
