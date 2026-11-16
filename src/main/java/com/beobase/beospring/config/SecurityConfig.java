@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,6 +47,8 @@ public class SecurityConfig {
                         // Public endpoints
                         // TODO: location picker is public temporary, move it to the USER role later
                         .requestMatchers("/test/**", "/auth/**", "/location-picker/**").permitAll()
+                        // The home page reads the list of apps without logging in (read only)
+                        .requestMatchers(HttpMethod.GET, "/apps", "/apps/**").permitAll()
 
                         // USER role can access those api url
                         .requestMatchers(
