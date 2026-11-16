@@ -41,10 +41,17 @@ class AppSeeder implements ApplicationRunner {
         List<AppSeed> seeds = readSeeds();
         failOnDuplicateNames(seeds);
 
-        List<App> missing = seeds.stream()
-                .filter(seed -> !appRepository.existsByNameIgnoreCase(seed.name()))
-                .map(this::toApp)
-                .toList();
+        List<App> missing = new ArrayList<>();
+
+        // Check each app once and log what happens to it
+        for (AppSeed seed : seeds) {
+            if (appRepository.existsByNameIgnoreCase(seed.name())) {
+                log.info("Skipping existing app: {}", seed.name());
+            } else {
+                log.info("Seeding new app: {}", seed.name());
+                missing.add(toApp(seed));
+            }
+        }
 
         appRepository.saveAll(missing);
 

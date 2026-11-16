@@ -10,9 +10,12 @@ import java.util.stream.Collectors;
 import com.beobase.beospring.shared.IdGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.DefaultApplicationArguments;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.test.context.ActiveProfiles;
 import tools.jackson.databind.ObjectMapper;
 
@@ -20,6 +23,7 @@ import tools.jackson.databind.ObjectMapper;
 // Runs against the in-memory H2 database with the real apps-seed.json.
 @SpringBootTest
 @ActiveProfiles("test")
+@ExtendWith(OutputCaptureExtension.class)
 class AppSeederTest {
 
     // Number of apps in apps-seed.json
@@ -115,6 +119,23 @@ class AppSeederTest {
         App afterSeed = appRepository.findByNameIgnoreCase("Bank").orElseThrow();
         assertEquals(List.of("Other Folder", "Assets"), afterSeed.getTags());
         assertEquals("/bank", afterSeed.getRoute());
+    }
+
+    @Test
+    void shouldLogEachNewApp(CapturedOutput output) {
+        runSeeder();
+
+        assertTrue(output.getOut().contains("Seeding new app: Bank"));
+        assertTrue(output.getOut().contains("Seeded " + SEED_COUNT + " apps, skipped 0 that already exist"));
+    }
+
+    @Test
+    void shouldLogEachExistingAppAsSkipped(CapturedOutput output) {
+        runSeeder();
+        runSeeder();
+
+        assertTrue(output.getOut().contains("Skipping existing app: Bank"));
+        assertTrue(output.getOut().contains("Seeded 0 apps, skipped " + SEED_COUNT + " that already exist"));
     }
 
     @Test
