@@ -54,7 +54,8 @@ class AppSeeder implements ApplicationRunner {
 
     private List<AppSeed> readSeeds() {
         try (InputStream in = new ClassPathResource(SEED_RESOURCE).getInputStream()) {
-            return objectMapper.readValue(in, new TypeReference<List<AppSeed>>() { });
+            return objectMapper.readValue(in, new TypeReference<>() {
+            });
         } catch (IOException e) {
             throw new UncheckedIOException("Could not load " + SEED_RESOURCE, e);
         }
