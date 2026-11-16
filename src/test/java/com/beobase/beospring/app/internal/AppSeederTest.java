@@ -27,7 +27,7 @@ import tools.jackson.databind.ObjectMapper;
 class AppSeederTest {
 
     // Number of apps in apps-seed.json
-    private static final int SEED_COUNT = 28;
+    private static final int SEED_COUNT = 38;
 
     @Autowired
     private AppRepository appRepository;
@@ -78,10 +78,10 @@ class AppSeederTest {
         assertEquals(List.of("Developments"), jira.getTags());
         assertTrue(jira.getRoute().startsWith("https://"));
 
-        App userInput = appRepository.findByNameIgnoreCase("[TEMP] User Input").orElseThrow();
+        App userInput = appRepository.findByNameIgnoreCase("User Input").orElseThrow();
         assertEquals(RouteType.INTERNAL, userInput.getRouteType());
         assertEquals("user-input", userInput.getRoute());
-        assertEquals(List.of("Cashflow Tracking"), userInput.getTags());
+        assertEquals(List.of("Demo Pages"), userInput.getTags());
     }
 
     @Test
