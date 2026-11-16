@@ -1,10 +1,10 @@
 package com.beobase.beospring.config;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,17 +18,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
-        logger.debug("Configuring SecurityFilterChain with Token and Role-Based Authorization");
+        log.debug("Configuring SecurityFilterChain with Token and Role-Based Authorization");
 
         http
                 // Enable CORS using the CorsConfigurationSource bean
@@ -46,6 +45,8 @@ public class SecurityConfig {
                         // Public endpoints
                         // TODO: location picker is public temporary, move it to the USER role later
                         .requestMatchers("/test/**", "/auth/**", "/location-picker/**").permitAll()
+                        // The home page reads the list of apps without logging in (read only)
+                        .requestMatchers(HttpMethod.GET, "/apps", "/apps/**").permitAll()
 
                         // USER role can access those api url
                         .requestMatchers(
@@ -75,7 +76,7 @@ public class SecurityConfig {
     // Centralized CORS configuration
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        logger.debug("Setting up global CORS configuration");
+        log.debug("Setting up global CORS configuration");
 
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
@@ -90,7 +91,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
 
-        logger.debug("CORS configuration registered for all endpoints");
+        log.debug("CORS configuration registered for all endpoints");
         return source;
     }
 

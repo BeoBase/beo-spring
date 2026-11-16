@@ -105,6 +105,12 @@ public class SecurityConfigTest {
     }
 
     @Test
+    void appsEndpointShouldBePublic() throws Exception {
+        mockMvc.perform(get("/apps/anything"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void authEndpointShouldBePublic() throws Exception {
         mockMvc.perform(get("/auth/anything"))
                 .andExpect(status().isNotFound());
