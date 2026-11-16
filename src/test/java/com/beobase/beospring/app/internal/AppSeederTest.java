@@ -27,7 +27,7 @@ import tools.jackson.databind.ObjectMapper;
 class AppSeederTest {
 
     // Number of apps in apps-seed.json
-    private static final int SEED_COUNT = 38;
+    private static final int SEED_COUNT = 41;
 
     @Autowired
     private AppRepository appRepository;

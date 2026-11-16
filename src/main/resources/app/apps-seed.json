@@ -3,6 +3,11 @@
   { "name": "Confluence [Leaving Soon]", "tags": ["Developments"], "route": "https://bellamyphan.atlassian.net/wiki/spaces/BB/overview", "routeType": "EXTERNAL" },
   { "name": "Github Bellamy", "tags": ["Developments"], "route": "https://github.com/bellamytran", "routeType": "EXTERNAL" },
   { "name": "Github BeoBase", "tags": ["Developments"], "route": "https://github.com/BeoBase", "routeType": "EXTERNAL" },
+
+  { "name": "Github React", "tags": ["Developments"], "route": "https://github.com/BeoBase/beo-react", "routeType": "EXTERNAL" },
+  { "name": "Github Spring", "tags": ["Developments"], "route": "https://github.com/BeoBase/beo-spring", "routeType": "EXTERNAL" },
+  { "name": "Github Database", "tags": ["Developments"], "route": "https://github.com/BeoBase/beo-database", "routeType": "EXTERNAL" },
+
   { "name": "Github Finora [Legacy]", "tags": ["Developments"], "route": "https://github.com/Finora-2026", "routeType": "EXTERNAL" },
   { "name": "Aiven Db", "tags": ["Developments"], "route": "https://console.aiven.io/account/a57638e0cd4e/project/beo-base/services/beobase-db/overview", "routeType": "EXTERNAL" },
   { "name": "Render", "tags": ["Developments"], "route": "https://dashboard.render.com/web/srv-d9r58vh42hec73c6mong", "routeType": "EXTERNAL" },
