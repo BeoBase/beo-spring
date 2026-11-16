@@ -1,40 +1,15 @@
 [
-  {
-    "name": "Jira Board",
-    "tags": ["Developments"],
-    "route": "https://bellamyphan.atlassian.net/jira/software/projects/BEO/boards/139/backlog",
-    "routeType": "EXTERNAL"
-  },
-  {
-    "name": "Confluence Home",
-    "tags": ["Developments"],
-    "route": "https://bellamyphan.atlassian.net/wiki/spaces/BB/overview",
-    "routeType": "EXTERNAL"
-  },
-  {
-    "name": "React Github",
-    "tags": ["Developments"],
-    "route": "https://github.com/BeoBase/beo-react",
-    "routeType": "EXTERNAL"
-  },
-  {
-    "name": "Spring Github",
-    "tags": ["Developments"],
-    "route": "https://github.com/BeoBase/beo-spring",
-    "routeType": "EXTERNAL"
-  },
-  {
-    "name": "Database Github",
-    "tags": ["Developments"],
-    "route": "https://github.com/BeoBase/beo-database",
-    "routeType": "EXTERNAL"
-  },
+  { "name": "Jira Board", "tags": ["Developments"], "route": "https://bellamyphan.atlassian.net/jira/software/projects/BEO/boards/139/backlog", "routeType": "EXTERNAL" },
+  { "name": "Confluence [Leaving Soon]", "tags": ["Developments"], "route": "https://bellamyphan.atlassian.net/wiki/spaces/BB/overview", "routeType": "EXTERNAL" },
+  { "name": "Github Bellamy", "tags": ["Developments"], "route": "https://github.com/bellamytran", "routeType": "EXTERNAL" },
+  { "name": "Github BeoBase", "tags": ["Developments"], "route": "https://github.com/BeoBase", "routeType": "EXTERNAL" },
+  { "name": "Github Finora [Legacy]", "tags": ["Developments"], "route": "https://github.com/Finora-2026", "routeType": "EXTERNAL" },
+  { "name": "Aiven Db", "tags": ["Developments"], "route": "https://console.aiven.io/account/a57638e0cd4e/project/beo-base/services/beobase-db/overview", "routeType": "EXTERNAL" },
+  { "name": "Render", "tags": ["Developments"], "route": "https://dashboard.render.com/web/srv-d9r58vh42hec73c6mong", "routeType": "EXTERNAL" },
+  { "name": "Vercel", "tags": ["Developments"], "route": "https://vercel.com/bellamy-phans-projects/beo-react", "routeType": "EXTERNAL" },
+  { "name": "Mailgun", "tags": ["Developments"], "route": "https://app.mailgun.com/dashboard", "routeType": "EXTERNAL" },
+  { "name": "Uptime Robot", "tags": ["Developments"], "route": "https://dashboard.uptimerobot.com/monitors", "routeType": "EXTERNAL" },
 
-  { "name": "[TEMP] User Input", "tags": ["Cashflow Tracking"], "route": "user-input", "routeType": "INTERNAL" },
-  { "name": "[TEMP] Location Picker", "tags": ["Cashflow Tracking"], "route": "location-picker", "routeType": "INTERNAL" },
-  { "name": "[TEMP] User App", "tags": ["Cashflow Tracking"], "route": "user", "routeType": "INTERNAL" },
-  { "name": "[TEMP] Counter App", "tags": ["Cashflow Tracking"], "route": "counter", "routeType": "INTERNAL" },
-  { "name": "[TEMP] React Quiz", "tags": ["Cashflow Tracking"], "route": "quiz", "routeType": "INTERNAL" },
   { "name": "Transaction", "tags": ["Cashflow Tracking"], "route": "linkhere.com", "routeType": "INTERNAL" },
   { "name": "Bank", "tags": ["Cashflow Tracking"], "route": "linkher2.com", "routeType": "INTERNAL" },
   { "name": "Budget", "tags": ["Cashflow Tracking"], "route": "linkher2.com", "routeType": "INTERNAL" },
@@ -56,5 +31,17 @@
   { "name": "Cloud Model", "tags": ["AI Chatbox"], "route": "linkher2.com", "routeType": "INTERNAL" },
 
   { "name": "Game 1", "tags": ["Mini Games"], "route": "linkhere.com", "routeType": "INTERNAL" },
-  { "name": "Game 2", "tags": ["Mini Games"], "route": "linkher2.com", "routeType": "INTERNAL" }
+  { "name": "Game 2", "tags": ["Mini Games"], "route": "linkher2.com", "routeType": "INTERNAL" },
+  { "name": "Counter App", "tags": ["Mini Games"], "route": "counter", "routeType": "INTERNAL" },
+
+  { "name": "User Input", "tags": ["Demo Pages"], "route": "user-input", "routeType": "INTERNAL" },
+  { "name": "Location Picker", "tags": ["Demo Pages"], "route": "location-picker", "routeType": "INTERNAL" },
+  { "name": "React Quiz", "tags": ["Demo Pages"], "route": "quiz", "routeType": "INTERNAL" },
+  { "name": "User App", "tags": ["Demo Pages"], "route": "user", "routeType": "INTERNAL" },
+
+  { "name": "Email", "tags": ["Support"], "route": "email", "routeType": "INTERNAL" },
+  { "name": "Facebook", "tags": ["Support"], "route": "https://www.facebook.com/bellamyphan69", "routeType": "EXTERNAL" },
+  { "name": "LinkedIn", "tags": ["Support"], "route": "https://www.linkedin.com/in/bellamyphan/", "routeType": "EXTERNAL" },
+  { "name": "Resume", "tags": ["Support"], "route": "resume", "routeType": "INTERNAL" },
+  { "name": "Portfolio", "tags": ["Support"], "route": "portfolio", "routeType": "INTERNAL" }
 ]
