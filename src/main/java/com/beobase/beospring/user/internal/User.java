@@ -21,6 +21,7 @@ import lombok.Setter;
 @NoArgsConstructor
 class User {
 
+    // The id is created by the backend (NanoId), the database has no default
     @Id
     @Column(name = "id", nullable = false, length = 10)
     private String id;

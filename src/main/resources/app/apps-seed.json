@@ -1,0 +1,60 @@
+[
+  {
+    "name": "Jira Board",
+    "tags": ["Developments"],
+    "route": "https://bellamyphan.atlassian.net/jira/software/projects/BEO/boards/139/backlog",
+    "routeType": "EXTERNAL"
+  },
+  {
+    "name": "Confluence Home",
+    "tags": ["Developments"],
+    "route": "https://bellamyphan.atlassian.net/wiki/spaces/BB/overview",
+    "routeType": "EXTERNAL"
+  },
+  {
+    "name": "React Github",
+    "tags": ["Developments"],
+    "route": "https://github.com/BeoBase/beo-react",
+    "routeType": "EXTERNAL"
+  },
+  {
+    "name": "Spring Github",
+    "tags": ["Developments"],
+    "route": "https://github.com/BeoBase/beo-spring",
+    "routeType": "EXTERNAL"
+  },
+  {
+    "name": "Database Github",
+    "tags": ["Developments"],
+    "route": "https://github.com/BeoBase/beo-database",
+    "routeType": "EXTERNAL"
+  },
+
+  { "name": "[TEMP] User Input", "tags": ["Cashflow Tracking"], "route": "user-input", "routeType": "INTERNAL" },
+  { "name": "[TEMP] Location Picker", "tags": ["Cashflow Tracking"], "route": "location-picker", "routeType": "INTERNAL" },
+  { "name": "[TEMP] User App", "tags": ["Cashflow Tracking"], "route": "user", "routeType": "INTERNAL" },
+  { "name": "[TEMP] Counter App", "tags": ["Cashflow Tracking"], "route": "counter", "routeType": "INTERNAL" },
+  { "name": "[TEMP] React Quiz", "tags": ["Cashflow Tracking"], "route": "quiz", "routeType": "INTERNAL" },
+  { "name": "Transaction", "tags": ["Cashflow Tracking"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Bank", "tags": ["Cashflow Tracking"], "route": "linkher2.com", "routeType": "INTERNAL" },
+  { "name": "Budget", "tags": ["Cashflow Tracking"], "route": "linkher2.com", "routeType": "INTERNAL" },
+
+  { "name": "Credit Card", "tags": ["Financial Liability"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Personal Loan", "tags": ["Financial Liability"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Student Loan", "tags": ["Financial Liability"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Car Loan", "tags": ["Financial Liability"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Mortgage", "tags": ["Financial Liability"], "route": "linkhere.com", "routeType": "INTERNAL" },
+
+  { "name": "Credit Score", "tags": ["Financial Health and Assets"], "route": "linkher2.com", "routeType": "INTERNAL" },
+  { "name": "Investment", "tags": ["Financial Health and Assets"], "route": "linkher2.com", "routeType": "INTERNAL" },
+  { "name": "Net Worth", "tags": ["Financial Health and Assets"], "route": "linkher2.com", "routeType": "INTERNAL" },
+  { "name": "Home", "tags": ["Financial Health and Assets"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Car", "tags": ["Financial Health and Assets"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Boat", "tags": ["Financial Health and Assets"], "route": "linkhere.com", "routeType": "INTERNAL" },
+
+  { "name": "Local Model", "tags": ["AI Chatbox"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Cloud Model", "tags": ["AI Chatbox"], "route": "linkher2.com", "routeType": "INTERNAL" },
+
+  { "name": "Game 1", "tags": ["Mini Games"], "route": "linkhere.com", "routeType": "INTERNAL" },
+  { "name": "Game 2", "tags": ["Mini Games"], "route": "linkher2.com", "routeType": "INTERNAL" }
+]
