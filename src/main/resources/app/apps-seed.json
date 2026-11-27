@@ -43,6 +43,7 @@
   { "name": "Location Picker", "tags": ["Demo Pages"], "route": "location-picker", "routeType": "INTERNAL" },
   { "name": "React Quiz", "tags": ["Demo Pages"], "route": "quiz", "routeType": "INTERNAL" },
   { "name": "User App", "tags": ["Demo Pages"], "route": "user", "routeType": "INTERNAL" },
+  { "name": "Sign Up", "tags": ["Demo Pages"], "route": "signup", "routeType": "INTERNAL" },
 
   { "name": "Email", "tags": ["Support"], "route": "email", "routeType": "INTERNAL" },
   { "name": "Facebook", "tags": ["Support"], "route": "https://www.facebook.com/bellamyphan69", "routeType": "EXTERNAL" },
